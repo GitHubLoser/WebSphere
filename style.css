@@ -394,7 +394,7 @@ body {
     font-size: 16px;
 }
 
-/* 修改分类标签按钮样式 */
+/* 修改分类标签按样式 */
 .category-tabs button {
     display: inline-flex;
     align-items: center;
@@ -430,4 +430,84 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
     flex: 1;
+}
+
+/* 数据管理按钮样式 */
+.data-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.data-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.data-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.data-btn:hover::before {
+    left: 100%;
+}
+
+.data-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    background: rgba(0, 255, 255, 0.15);
+}
+
+.data-btn .material-icons {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.data-btn:hover .material-icons {
+    transform: scale(1.1);
+}
+
+/* 为导入和导出按钮添加不同的样式 */
+.data-btn.export-btn {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.data-btn.import-btn {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.data-btn.import-btn:hover {
+    box-shadow: 0 0 15px rgba(0, 255, 170, 0.3);
+}
+
+/* 添加文件输入框的样式 */
+.data-btn input[type="file"] {
+    display: none;
 }

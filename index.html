@@ -44,6 +44,22 @@
                     </button>
                 </div>
             </div>
+
+            <!-- 数据管理 -->
+            <div class="sidebar-section">
+                <h2>数据管理</h2>
+                <div class="data-actions">
+                    <button onclick="exportData()" class="data-btn export-btn">
+                        <span class="material-icons">file_download</span>
+                        导出
+                    </button>
+                    <label class="data-btn import-btn">
+                        <span class="material-icons">file_upload</span>
+                        导入
+                        <input type="file" accept=".json" onchange="importData(event)">
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 

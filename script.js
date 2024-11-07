@@ -384,6 +384,52 @@ function cancelCategoryEdit(category, editForm) {
     editForm.remove();
 }
 
+// 添加导出功能
+function exportData() {
+    const data = {
+        bookmarks: bookmarks,
+        categories: categories
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `bookmarks-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// 添加导入功能
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (data.bookmarks && data.categories) {
+                bookmarks = data.bookmarks;
+                categories = data.categories;
+                localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+                localStorage.setItem('categories', JSON.stringify(categories));
+                updateCategoryUI();
+                displayBookmarks();
+                alert('数据导入成功！');
+            } else {
+                alert('无效的数据格式！');
+            }
+        } catch (error) {
+            alert('导入失败：' + error.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
 // 初始化
 updateCategoryUI();
 displayBookmarks(); 
