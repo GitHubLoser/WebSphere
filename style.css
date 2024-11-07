@@ -1,0 +1,433 @@
+:root {
+    --sidebar-width: 300px;
+    --primary-color: #0ff;
+    --primary-glow: rgba(0, 255, 255, 0.2);
+    --accent-color: #00ffaa;
+    --bg-dark: #0a0a0a;
+    --bg-light: #1a1a1a;
+    --neon-shadow: 0 0 10px var(--primary-glow);
+    --border-color: rgba(0, 255, 255, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    background: var(--bg-dark);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-light);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 1.5rem;
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar.collapsed {
+    transform: translateX(calc(-100% + 50px));
+}
+
+.sidebar.collapsed .sidebar-content,
+.sidebar.collapsed .sidebar-header h1,
+.sidebar.collapsed .sidebar-header .material-icons {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.toggle-btn {
+    position: absolute;
+    right: -15px;
+    top: 20px;
+    width: 30px;
+    height: 30px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+.toggle-btn .material-icons {
+    font-size: 20px;
+    color: var(--bg-dark);
+    transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed .toggle-btn .material-icons {
+    transform: rotate(180deg);
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h1 {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.sidebar-section {
+    margin-bottom: 2rem;
+}
+
+.sidebar-section h2 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+/* 添加分类输入框样式 */
+.add-category {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.add-category input {
+    width: 100%;
+    padding: 0.8rem;
+    padding-right: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: #fff;
+}
+
+.add-category button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--primary-color);
+    padding: 5px;
+    cursor: pointer;
+}
+
+/* 添加网站表单样式 */
+.add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.add-form input,
+.add-form select {
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: #fff;
+}
+
+.add-form button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* 主内容区域样式 */
+.main-content {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    padding: 2rem;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.expanded {
+    margin-left: 50px;
+}
+
+/* 分类标签样式 */
+.category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.category-tabs button {
+    padding: 0.6rem 1.2rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex: 0 1 auto;
+    min-width: 100px;
+    max-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category-tabs button.active {
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    border-color: var(--primary-color);
+}
+
+/* 书签列表样式 */
+.category-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.category-header h2 {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.bookmark-count {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+.bookmark-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.bookmark-item:hover {
+    border-color: var(--border-color);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.bookmark-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.bookmark-info a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bookmark-actions {
+    display: flex;
+    gap: 0.3rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    margin-left: auto;
+    padding-left: 1rem;
+}
+
+.bookmark-item:hover .bookmark-actions {
+    opacity: 1;
+}
+
+.bookmark-actions button {
+    padding: 0.3rem;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+}
+
+.bookmark-actions button:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--primary-color);
+}
+
+.bookmark-actions .material-icons {
+    font-size: 16px;
+}
+
+.bookmark-actions .delete-btn {
+    color: #ff4646;
+}
+
+.bookmark-actions .delete-btn:hover {
+    background: rgba(255, 70, 70, 0.1);
+    border-color: #ff4646;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 260px;
+    }
+}
+
+/* 侧边栏内容过渡效果 */
+.sidebar-content,
+.sidebar-header h1,
+.sidebar-header .material-icons {
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* 分类按钮内的操作图标 */
+.category-actions {
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.category-actions .material-icons {
+    font-size: 16px;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.category-actions .material-icons:hover {
+    opacity: 1;
+}
+
+.edit-icon {
+    color: var(--primary-color);
+}
+
+.delete-icon {
+    color: #ff4646;
+}
+
+/* 分类编辑表单 */
+.category-edit-form {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.3rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.category-edit-input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 0.3rem;
+    width: 120px;
+}
+
+.category-edit-form .edit-actions {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.category-edit-form button {
+    padding: 0.3rem;
+    min-width: auto;
+    background: transparent;
+    border: none;
+}
+
+.category-edit-form button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.category-edit-form button .material-icons {
+    font-size: 16px;
+}
+
+/* 修改分类标签按钮样式 */
+.category-tabs button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* 添加滚动条样式 */
+.category-tabs::-webkit-scrollbar {
+    width: 5px;
+}
+
+.category-tabs::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.category-tabs::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+/* 优化分类标签内容布局 */
+.category-actions {
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* 当分类名称过长时显示省略号 */
+.category-tabs button span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
